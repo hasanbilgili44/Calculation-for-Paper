@@ -1,1 +1,7 @@
-
+F[x_, y_] := k*x^2 - 2*d*x*y + d*k*y^2
+G[x_, y_] := x^2 - 2*k*x*y + d*y^2;
+H1[x_, y_] := y*F[x, y] - x*G[x, y] ;
+H2[x_, y_] := y*F[F[x, y], G[x, y]] - x*G[F[x, y], G[x, y]]; 
+f[x_, y_] := F[F[x, y], G[x, y]];
+g[x_, y_] := G[F[x, y], G[x, y]];
+H3[x_, y_] := y*F[f[x, y], g[x, y]] - x*G[f[x, y], g[x, y]] ;
