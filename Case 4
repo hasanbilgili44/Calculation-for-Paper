@@ -1,3 +1,5 @@
+For the case k is not equal to 0;
+
 P<X,d> := AffineSpace(Rationals(),2); 
 C4:= Curve(P,5*d^8 + 5*X^12 + 10*d*X^(10)*(15-12*X+X^2)
 + 10*d^7*(1-12*X + 15*X^2) + d^2*X^8*(951- 1768*X + 804*X^2 -72*X^3 + X^4)
@@ -253,3 +255,227 @@ Dimension(S2);
 Points(S2);
 0
 {@ (0 : 0 : 1), (1 : 1 : 1), (0 : 1 : 0), (1 : 0 : 0) @}
+
+For the case k is equal to 0. 
+
+P<X,d>:=AffineSpace(Rationals(),2);
+C:= Curve(P, d^2*(5*d^6 + 150*d^5*X^2 + 951*d^4*X^4 + 1828*d^3*X^6 + 
+   1059*d^2*X^8 + 102*d*X^10 + X^12));
+PC:= ProjectiveClosure(C);
+P<X,d,W>:= AmbientSpace(PC);
+PC;
+IrreducibleComponents(C);
+
+Curve over Rational Field defined by
+X^12*d^2 + 102*X^10*d^3*W + 1059*X^8*d^4*W^2 + 1828*X^6*d^5*W^3 +
+    951*X^4*d^6*W^4 + 150*X^2*d^7*W^5 + 5*d^8*W^6
+[
+    Scheme over Rational Field defined by
+    d^2,
+    Scheme over Rational Field defined by
+    X^4 + 10*X^2*d + 5*d^2,
+    Scheme over Rational Field defined by
+    X^8 + 92*X^6*d + 134*X^4*d^2 + 28*X^2*d^3 + d^4
+]
+P<X,d,W>:= ProjectiveSpace(Rationals(),2);
+PC := Curve(P, X^12*d^2 + 102*X^10*d^3*W + 1059*X^8*d^4*W^2 + 1828*X^6*d^5*W^3 +
+    951*X^4*d^6*W^4 + 150*X^2*d^7*W^5 + 5*d^8*W^6);
+IsIrreducible(PC);
+PC1 := Scheme(P,d^2);
+PC2:= Curve(P, X^4 + 10*X^2*d*W + 5*d^2*W^2);
+PC3:= Curve(P, X^8 + 92*X^6*d*W + 134*X^4*d^2*W^2 + 28*X^2*d^3*W^3 + d^4*W^4);
+k2:=FieldOfGeometricIrreducibility(PC2);
+k2;
+
+
+
+k3:=FieldOfGeometricIrreducibility(PC3);
+k3;
+false
+Number Field with defining polynomial $.1^2 + 10*$.1 + 5 over the Rational Field
+Number Field with defining polynomial $.1^4 + 10972*$.1^3 + 1397894*$.1^2 +
+    741788*$.1 + 1 over the Rational Field
+   
+   
+    R<X> := PolynomialRing(Rationals());
+    f := X^2 + 10*X + 5;
+   k := NumberField(f);
+   P<X,d,W>:=ProjectiveSpace(k,2);
+   PC2:= Curve(P, X^4 + 10*X^2*d*W + 5*d^2*W^2);
+   IrreducibleComponents(PC2);
+
+   [
+    Scheme over k defined by
+    X^2 - k.1*d*W,
+    Scheme over k defined by
+    X^2 + (k.1 + 10)*d*W
+]
+
+Notice that X and k are equal to 0 implies that d is equal to 0.
+
+function collect(f, i)
+    R := Parent(f);
+    K := BaseRing(R);
+    n := Rank(R);
+
+    // Check if i is within valid range (manual error handling)
+    if i lt 1 or i gt n then
+        error "Variable index out of bounds";
+    end if;
+
+    // Indices of the other variables
+    others := [1..n];
+    Remove(~others, i);
+
+    // Create the coefficient ring with the other variables
+    Snames := [Names(R)[j] : j in others];
+    S := PolynomialRing(K, #others);
+    AssignNames(~S, Snames);
+
+    // Create the univariate ring over S for the i-th variable
+    S1<y> := PolynomialRing(S);
+    AssignNames(~S1, [Names(R)[i]]);
+
+    // Define the homomorphism from R to S1
+    hom_images := [];
+    for j in [1..n] do
+        if j eq i then
+            Append(~hom_images, S1.1); // y (the i-th variable)
+        else
+            pos := Index(others, j);
+            Append(~hom_images, S.pos); // Other variables mapped to S
+        end if;
+    end for;
+
+    hom := hom< R -> S1 | hom_images >;
+
+    // Map the polynomial to the new ring
+    g := hom(f);
+    return g, S1;
+end function;
+
+K := Rationals();
+R<k, X, d, W> := PolynomialRing(K, 4);
+f := X^2 - k*d*W;
+// Collect terms with respect to x (first variable)
+g, S1 := collect(f, 1);
+
+// Output will be:
+// (y + 3)*y^2 + (z)*y + 2*z
+// Where y in S1 represents the original x variable
+g, S1;
+
+-d*W*k + X^2
+Univariate Polynomial Ring in k over Polynomial ring of rank 3 over Rational
+    Field
+
+    function collect(f, i)
+    R := Parent(f);
+    K := BaseRing(R);
+    n := Rank(R);
+
+    // Check if i is within valid range (manual error handling)
+    if i lt 1 or i gt n then
+        error "Variable index out of bounds";
+    end if;
+
+    // Indices of the other variables
+    others := [1..n];
+    Remove(~others, i);
+
+    // Create the coefficient ring with the other variables
+    Snames := [Names(R)[j] : j in others];
+    S := PolynomialRing(K, #others);
+    AssignNames(~S, Snames);
+
+    // Create the univariate ring over S for the i-th variable
+    S1<y> := PolynomialRing(S);
+    AssignNames(~S1, [Names(R)[i]]);
+
+    // Define the homomorphism from R to S1
+    hom_images := [];
+    for j in [1..n] do
+        if j eq i then
+            Append(~hom_images, S1.1); // y (the i-th variable)
+        else
+            pos := Index(others, j);
+            Append(~hom_images, S.pos); // Other variables mapped to S
+        end if;
+    end for;
+
+    hom := hom< R -> S1 | hom_images >;
+
+    // Map the polynomial to the new ring
+    g := hom(f);
+    return g, S1;
+end function;
+
+K := Rationals();
+R<k, X, d, W> := PolynomialRing(K, 4);
+f := X^2 + (k + 10)*d*W;
+// Collect terms with respect to x (first variable)
+g, S1 := collect(f, 1);
+
+// Output will be:
+// (y + 3)*y^2 + (z)*y + 2*z
+// Where y in S1 represents the original x variable
+g, S1;
+
+d*W*k + X^2 + 10*d*W
+Univariate Polynomial Ring in k over Polynomial ring of rank 3 over Rational
+    Field
+
+    R<X> := PolynomialRing(Rationals());
+    f := X^4 + 10972*X^3 + 1397894*X^2 +
+       741788*X + 1;
+   k := NumberField(f);
+   P<X,d,W>:=ProjectiveSpace(k,2);
+   PC3:= Curve(P, X^8 + 92*X^6*d*W + 134*X^4*d^2*W^2 + 28*X^2*d^3*W^3 + d^4*W^4);
+   IrreducibleComponents(PC3);
+
+   [
+    Scheme over k defined by
+    X^2 + 1/26731707123*(3217578*k.1^3 + 35303285740*k.1^2 + 4498051958075*k.1 +
+        2419843888700)*d*W,
+    Scheme over k defined by
+    X^2 + 1/106926828492*(-13096511*k.1^3 - 143688032128*k.1^2 -
+        18231968106259*k.1 + 4806406854)*d*W,
+    Scheme over k defined by
+    X^2 + 1/106926828492*(77073*k.1^3 + 838583615*k.1^2 + 31157675155*k.1 +
+        21195995617)*d*W,
+    Scheme over k defined by
+    X^2 + 1/106926828492*(149126*k.1^3 + 1636305553*k.1^2 + 208602598804*k.1 +
+        131890263993)*d*W
+]
+
+By reorganizing the polynomials as a polynomial of k, we have;
+
+P<X,d,W>:= ProjectiveSpace(Rationals(),2);
+S1:=Scheme(P, [1072526/8910569041*d*W, 35303285740/26731707123*d*W, 4498051958075/26731707123*d*W,  X^2 + 2419843888700/26731707123*d*W]);
+Dimension(S1);
+Points(S1);
+SingularPoints(S1);
+S2:=Scheme(P, [-13096511/106926828492*d*W,  - 35922008032/26731707123*d*W,  18231968106259/106926828492*d*W, X^2 + 801067809/17821138082*d*W]);
+Dimension(S2);
+Points(S2);
+SingularPoints(S2);
+S3:=Scheme(P, [25691/35642276164*d*W, 838583615/106926828492*d*W, 31157675155/106926828492*d*W, X^2 + 21195995617/106926828492*d*W]);
+Dimension(S3);
+Points(S3);
+SingularPoints(S3);
+S4:=Scheme(P, [74563/53463414246*d*W, 1636305553/106926828492*d*W, 52150649701/26731707123*d*W, X^2 + 43963421331/35642276164*d*W]);
+Dimension(S4);
+Points(S4);
+SingularPoints(S4);
+0
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+0
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+0
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+0
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
