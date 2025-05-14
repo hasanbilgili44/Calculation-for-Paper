@@ -120,6 +120,16 @@ PC62:=Curve(P, X^36*d^6 + 186*X^36*d^5*W - 1152*X^35*d^6*W + 1710*X^34*d^7*W +
     1772*d^21*W^21 + 167193*X^4*d^16*W^22 - 242304*X^3*d^17*W^22 +
     117612*X^2*d^18*W^22 - 22656*X*d^19*W^22 + 1423*d^20*W^22 +
     1710*X^2*d^17*W^23 - 1152*X*d^18*W^23 + 186*d^19*W^23 + d^18*W^24);
+GenusViaArithmeticGenus(PC62);
+SingularPoints(PC62);
+SingularPoints(PC61);
+Genus(PC61);
+
+433
+{@ (0 : 0 : 1), (1 : 1 : 1), (0 : 1 : 0), (1 : 0 : 0) @}
+{@ (0 : 0 : 1), (1 : 1 : 1), (0 : 1 : 0), (1 : 0 : 0) @}
+0
+
 
 K:=FieldOfGeometricIrreducibility(PC61);
 K;
