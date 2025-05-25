@@ -1108,7 +1108,10 @@ Points(C2);
 
 
 
-Extra: C21[X,k,d]
+Extra: 
+
+
+C21[X,k,d]
 Phi21star[X_, Y_] := (H1[f[X, Y], g[X, Y]])/(H1[F[X, Y], G[X, Y]]);
 
 C21[X_, k_, 
@@ -1218,3 +1221,7 @@ RationalPoints(S2);
 {@ (0 : 0 : 1), (0 : 1 : 0) @}
 {@ (0 : 0 : 1), (0 : 1 : 0) @}
 
+Phi22star[X_, 
+   Y_] := (Phistar2[f[X, Y], g[X, Y]])/(Phistar2[F[X, Y], G[X, Y]]);
+
+Phi22star[X, 1] = (d - k^2)^2 (d - X^2)^2
