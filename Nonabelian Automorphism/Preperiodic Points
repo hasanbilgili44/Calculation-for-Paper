@@ -1225,3 +1225,179 @@ Phi22star[X_,
    Y_] := (Phistar2[f[X, Y], g[X, Y]])/(Phistar2[F[X, Y], G[X, Y]]);
 
 Phi22star[X, 1] = (d - k^2)^2 (d - X^2)^2
+
+
+Phi13star[X_, Y_] := (Phistar3[F[X, Y], G[X, Y]])/(Phistar3[X, Y]);
+C13[X_, k_, 
+   d_] := (d^4 + k^2 X^6 + 3 d X^4 (11 k^2 - 8 k X + X^2) + 
+    3 d^3 (k^2 - 8 k X + 11 X^2) + 
+    d^2 X^2 (27 k^2 - 80 k X + 27 X^2));
+C13[X, 1, d] =    d^4 + X^6 + 3 d X^4 (11 - 8 X + X^2) + 3 d^3 (1 - 8 X + 11 X^2) + 
+ d^2 X^2 (27 - 80 X + 27 X^2)
+
+ When k is not equal to 0;
+
+ P<X,d>:=AffineSpace(Rationals(),2);
+C13:= Curve(P, d^4 + X^6 + 3*d*X^4*(11 - 8*X + X^2) + 3*d^3*(1 - 8*X + 11*X^2) + 
+ d^2*X^2*(27 - 80*X + 27*X^2));
+PC13:=ProjectiveClosure(C13);
+P<X,d,W>:=AmbientSpace(PC13);
+PC13;
+SingularPoints(C13);
+IrreducibleComponents(PC13);
+
+Curve over Rational Field defined by
+X^6*d + 1/3*X^6*W - 8*X^5*d*W + 9*X^4*d^2*W + 11*X^4*d*W^2 - 80/3*X^3*d^2*W^2 +
+    11*X^2*d^3*W^2 + 9*X^2*d^2*W^3 - 8*X*d^3*W^3 + 1/3*d^4*W^3 + d^3*W^4
+{@ (0, 0), (1, 1) @}
+[
+    Scheme over Rational Field defined by
+    X^6*d + 1/3*X^6*W - 8*X^5*d*W + 9*X^4*d^2*W + 11*X^4*d*W^2 -
+        80/3*X^3*d^2*W^2 + 11*X^2*d^3*W^2 + 9*X^2*d^2*W^3 - 8*X*d^3*W^3 +
+        1/3*d^4*W^3 + d^3*W^4
+]
+
+P<X,d,W>:=ProjectiveSpace(Rationals(),2);
+PC13 := Curve(P, X^6*d + 1/3*X^6*W - 8*X^5*d*W + 9*X^4*d^2*W + 11*X^4*d*W^2 - 80/3*X^3*d^2*W^2 +
+    11*X^2*d^3*W^2 + 9*X^2*d^2*W^3 - 8*X*d^3*W^3 + 1/3*d^4*W^3 + d^3*W^4);
+k:=FieldOfGeometricIrreducibility(PC13);
+k;
+Genus(PC13);
+SingularPoints(PC13);
+
+Rational Field
+0
+{@ (0 : 0 : 1), (1 : 1 : 1), (0 : 1 : 0) @}
+
+
+The case k=0
+
+C13[X, 0, d] = d (d^3 + 33 d^2 X^2 + 27 d X^4 + 3 X^6)
+
+P<X,d>:=AffineSpace(Rationals(),2);
+C13:= Curve(P, d^3 + 33*d^2*X^2 + 27*d*X^4 + 3*X^6);
+PC13:=ProjectiveClosure(C13);
+P<X,d,W>:=AmbientSpace(PC13);
+PC13;
+SingularPoints(C13);
+IrreducibleComponents(PC13);
+
+Curve over Rational Field defined by
+X^6 + 9*X^4*d*W + 11*X^2*d^2*W^2 + 1/3*d^3*W^3
+{@ (0, 0) @}
+[
+    Scheme over Rational Field defined by
+    X^6 + 9*X^4*d*W + 11*X^2*d^2*W^2 + 1/3*d^3*W^3
+]
+
+
+P<X,d,W>:=ProjectiveSpace(Rationals(),2);
+PC13 := Curve(P, X^6 + 9*X^4*d*W + 11*X^2*d^2*W^2 + 1/3*d^3*W^3);
+k:=FieldOfGeometricIrreducibility(PC13);
+k;
+Genus(PC13);
+SingularPoints(PC13);
+
+Number Field with defining polynomial $.1^3 - 1035*$.1^2 + 531*$.1 - 9 over the
+Rational Field
+0
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+
+ R<X> := PolynomialRing(Rationals());
+ f :=X^3 - 1035*X^2 + 531*X - 9;
+k := NumberField(f);
+P<X,d,W>:=ProjectiveSpace(k,2);
+PC13:= Curve(P, X^6 + 9*X^4*d*W + 11*X^2*d^2*W^2 + 1/3*d^3*W^3);
+IrreducibleComponents(PC13);
+
+[
+    Scheme over k defined by
+    X^2 + 1/888*(11*k.1^2 - 11386*k.1 + 6903)*d*W,
+    Scheme over k defined by
+    X^2 + 1/1776*(-27*k.1^2 + 27934*k.1 - 435)*d*W,
+    Scheme over k defined by
+    X^2 + 1/1776*(5*k.1^2 - 5162*k.1 + 2613)*d*W
+]
+
+// STEP 1: Define the polynomial ring over RATIONAL NUMBERS (to allow fractions)
+Q := Rationals();
+R<X, k, d, W> := PolynomialRing(Q, 4);  // Use Q instead of Z
+
+// STEP 2: Define 18 polynomials (replace examples with your actual polynomials)
+polynomials := [
+
+    X^2 + 1/888*(11*k^2 - 11386*k + 6903)*d*W,
+
+    X^2 + 1/1776*(-27*k^2 + 27934*k- 435)*d*W,
+
+    X^2 + 1/1776*(5*k^2 - 5162*k + 2613)*d*W,
+
+];
+
+// STEP 3: Coefficient extraction setup
+C<X, d, W> := PolynomialRing(Q, 3);      // Use Q for coefficients
+S<k_univ> := PolynomialRing(C);
+h := hom< R -> S | C.1, k_univ, C.2, C.3 >;
+
+// STEP 4: Process all polynomials
+for idx := 1 to #polynomials do
+    f := polynomials[idx];
+    f_S := h(f);
+    coefficients := Coefficients(f_S);
+    
+    // Print coefficients as a list (without zeros for missing degrees)
+    printf "f%o: %o\n", idx, coefficients;
+end for;
+
+f1: [
+X^2 + 2301/296*d*W,
+-5693/444*d*W,
+11/888*d*W
+]
+f2: [
+X^2 - 145/592*d*W,
+13967/888*d*W,
+-9/592*d*W
+]
+f3: [
+X^2 + 871/592*d*W,
+-2581/888*d*W,
+5/1776*d*W
+]
+
+P<X,d,W>:=ProjectiveSpace(Rationals(),2);
+S1:=Scheme(P, [
+X^2 + 2301/296*d*W,
+-5693/444*d*W,
+11/888*d*W
+]);
+Dimension(S1);
+SingularPoints(S1);
+RationalPoints(S1);
+S2:=Scheme(P,[
+X^2 - 145/592*d*W,
+13967/888*d*W,
+-9/592*d*W
+]);
+Dimension(S2);
+SingularPoints(S2);
+RationalPoints(S2);
+S3:=Scheme(P,[
+X^2 + 871/592*d*W,
+-2581/888*d*W,
+5/1776*d*W
+]);
+Dimension(S3);
+SingularPoints(S3);
+RationalPoints(S3);
+
+0
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+0
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+0
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+
