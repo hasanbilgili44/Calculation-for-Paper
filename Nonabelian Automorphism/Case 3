@@ -5,3 +5,146 @@ H2[x_, y_] := y*F[F[x, y], G[x, y]] - x*G[F[x, y], G[x, y]];
 f[x_, y_] := F[F[x, y], G[x, y]];
 g[x_, y_] := G[F[x, y], G[x, y]];
 H3[x_, y_] := y*F[f[x, y], g[x, y]] - x*G[f[x, y], g[x, y]] ;
+C3[X, k, d] := 3 d^4 + 3 k^2 X^6 + d X^4 (27 k^2 - 24 k X + X^2) + 
+ d^3 (k^2 - 24 k X + 27 X^2) + d^2 X^2 (33 k^2 - 80 k X + 33 X^2);
+
+
+Case k=0;
+
+P<X,d>:=AffineSpace(Rationals(),2);
+C3:=Scheme(P, 3*d^3 + 27*d^2*X^2 + 33*d*X^4 + X^6);
+IsIrreducible(C3);
+Dimension(C3);
+PC3 := ProjectiveClosure(C3);
+P<X,d,W>:= AmbientSpace(PC3);
+PC3;
+SC3:=SingularSubscheme(C3);
+Dimension(SC3);
+IsReduced(C3);
+
+true
+1
+Scheme over Rational Field defined by
+X^6 + 33*X^4*d*W + 27*X^2*d^2*W^2 + 3*d^3*W^3
+0
+true
+
+
+P<X,d,W>:=ProjectiveSpace(Rationals(),2);
+PC3:=Curve(P, X^6 + 33*X^4*d*W + 27*X^2*d^2*W^2 + 3*d^3*W^3);
+SingularPoints(PC3);
+Genus(PC3);
+k := FieldOfGeometricIrreducibility(PC3);
+k;
+
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+0
+Number Field with defining polynomial $.1^3 - 531*$.1^2 + 9315*$.1 - 81 over the
+Rational Field
+
+
+R<X> := PolynomialRing(Rationals());
+    f := X^3 - 531*X^2 + 9315*X - 81;
+   k := NumberField(f);
+   P<X,d,W>:=ProjectiveSpace(k,2);
+   PC3:= Curve(P, X^6 + 33*X^4*d*W + 27*X^2*d^2*W^2 + 3*d^3*W^3);
+   IrreducibleComponents(PC3);
+
+
+[
+    Scheme over k defined by
+    X^2 + 1/888*(3*k.1^2 - 1594*k.1 + 28575)*d*W,
+    Scheme over k defined by
+    X^2 + 1/5328*(-19*k.1^2 + 9750*k.1 + 621)*d*W,
+    Scheme over k defined by
+    X^2 + 1/5328*(k.1^2 - 186*k.1 + 3753)*d*W
+]
+
+function collect(f, i)
+    R := Parent(f);
+    K := BaseRing(R);
+    n := Rank(R);
+
+    // Check if i is within valid range (manual error handling)
+    if i lt 1 or i gt n then
+        error "Variable index out of bounds";
+    end if;
+
+    // Indices of the other variables
+    others := [1..n];
+    Remove(~others, i);
+
+    // Create the coefficient ring with the other variables
+    Snames := [Names(R)[j] : j in others];
+    S := PolynomialRing(K, #others);
+    AssignNames(~S, Snames);
+
+    // Create the univariate ring over S for the i-th variable
+    S1<y> := PolynomialRing(S);
+    AssignNames(~S1, [Names(R)[i]]);
+
+    // Define the homomorphism from R to S1
+    hom_images := [];
+    for j in [1..n] do
+        if j eq i then
+            Append(~hom_images, S1.1); // y (the i-th variable)
+        else
+            pos := Index(others, j);
+            Append(~hom_images, S.pos); // Other variables mapped to S
+        end if;
+    end for;
+
+    hom := hom< R -> S1 | hom_images >;
+
+    // Map the polynomial to the new ring
+    g := hom(f);
+    return g, S1;
+end function;
+
+K := Rationals();
+R<k, X, d, W> := PolynomialRing(K, 4);
+f := X^2 + 1/888*(3*k^2 - 1594*k + 28575)*d*W;
+f1:= X^2 + 1/5328*(-19*k^2 + 9750*k + 621)*d*W;
+f2:=  X^2 + 1/5328*(k^2 - 186*k + 3753)*d*W;
+
+// Collect terms with respect to x (first variable)
+g, S1 := collect(f, 1);
+
+// Output will be:
+// (y + 3)*y^2 + (z)*y + 2*z
+// Where y in S1 represents the original x variable
+g, S1;
+collect(f1,1);
+collect(f2,1);
+
+
+1/296*d*W*k^2 - 797/444*d*W*k + X^2 + 9525/296*d*W
+Univariate Polynomial Ring in k over Polynomial ring of rank 3 over Rational
+    Field
+-19/5328*d*W*k^2 + 1625/888*d*W*k + X^2 + 69/592*d*W
+Univariate Polynomial Ring in k over Polynomial ring of rank 3 over Rational
+    Field
+1/5328*d*W*k^2 - 31/888*d*W*k + X^2 + 417/592*d*W
+Univariate Polynomial Ring in k over Polynomial ring of rank 3 over Rational
+    Field
+
+
+
+
+P<X,d,W>:=ProjectiveSpace(Rationals(),2);
+S1 := Scheme(P, [1/296*d*W, - 797/444*d*W,  9525/296*d*W,  X^2]);
+S2 := Scheme (P, [-19/5328*d*W, 1625/888*d*W, X^2, 69/592*d*W]);
+S3:= Scheme (P, [1/5328*d*W, - 31/888*d*W,  X^2, 417/592*d*W]);
+SingularPoints(S1);
+RationalPoints(S1);
+SingularPoints(S2);
+RationalPoints(S2);
+SingularPoints(S3);
+RationalPoints(S3);
+
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
+{@ (0 : 0 : 1), (0 : 1 : 0) @}
