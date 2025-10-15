@@ -1,0 +1,41 @@
+F[x_, y_] := k*x^2 - 2*d*x*y + d*k*y^2
+G[x_, y_] := x^2 - 2*k*x*y + d*y^2;
+H1[x_, y_] := y*F[x, y] - x*G[x, y] ;
+H2[x_, y_] := y*F[F[x, y], G[x, y]] - x*G[F[x, y], G[x, y]]; 
+f[x_, y_] := F[F[x, y], G[x, y]];
+g[x_, y_] := G[F[x, y], G[x, y]];
+H3[x_, y_] := y*F[f[x, y], g[x, y]] - x*G[f[x, y], g[x, y]] ;
+H4[x_, y_] := y*F[f1[x, y], g1[x, y]] - x*G[f1[x, y], g1[x, y]];
+f1[x_, y_] := F[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]];
+g1[x_, y_] := G[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]];
+f11[x_, y_] := F[F[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]], G[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]]];
+g11[x_, y_] := G[F[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]], G[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]]];
+f111[x_, y_] := F[F[F[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]], G[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]]], G[F[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]], 
+G[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]]]];
+g111[x_, y_] := 
+  G[F[F[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]], 
+    G[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]]], 
+   G[F[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]], 
+    G[F[F[x, y], G[x, y]], G[F[x, y], G[x, y]]]]];
+
+C1[z_, k_, d_] := 3 d^4 + d^3 k^2 - 24 d^3 k *z + (27 d^3 + 33 d^2 k^2) *z^2 - 
+   80 d^2 k *z^3 + (33 d^2 + 27 d k^2) *z^4 - 
+   24 d k *z^5 + (d + 3 k^2) *z^6;
+
+C3[X_, k_, d_] := 3 d^4 + 3 k^2 X^6 + d X^4 (27 k^2 - 24 k X + X^2) + 
+   d^3 (k^2 - 24 k X + 27 X^2) + d^2 X^2 (33 k^2 - 80 k X + 33 X^2);
+theta[z_] := (k (z^2) - 2 d*z + d*k)/(z^2 - 2 k*z + d);
+H5[x_, y_] := y*F[f11[x, y], g11[x, y]] - x*G[f11[x, y], g11[x, y]];
+H6[x_, y_] := y*F[f111[x, y], g111[x, y]] - x*G[f111[x, y], g111[x, y]];
+H6[X, 1]/(H2[X, 1]*H3[X, 1]);
+Phi11[X_, Y_] := G[X, Y]*f[X, Y] - F[X, Y]*g[X, Y];
+Phistar2[X_, Y_] := H2[X, Y]/H1[X, Y];
+Phi11star[X_, Y_] := (H1[F[X, Y], G[X, Y]])/(H1[X, Y]);
+Phistar2[X_, Y_] := H2[X, Y]/H1[X, Y];
+Phi12star[X_, Y_] := (Phistar2[F[X, Y], G[X, Y]])/(Phistar2[X, Y]);
+Phi21star[X_, Y_] := (H1[f[X, Y], g[X, Y]])/(H1[F[X, Y], G[X, Y]]);
+Phi22star[X_, Y_] := (Phistar2[f[X, Y], g[X, Y]])/(Phistar2[F[X, Y], G[X, Y]]);
+Phi31star[X_, Y_] := H1[f1[X, Y], g1[X, Y]]/(H1[f[X, Y], g[X, Y]]);
+Phi13star[X_, Y_] := (Phistar3[F[X, Y], G[X, Y]])/(Phistar3[X, Y]);
+Phistar3[X_, Y_] := H3[X, Y]/(H1[X, Y]);
+Phi33star[X_, Y_] := (Phistar3[f1[X, Y], g1[X, Y]])/(Phistar3[f[X, Y], g[X, Y]]);

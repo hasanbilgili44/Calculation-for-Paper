@@ -1,0 +1,248 @@
+ii) C21[X_, k_, d_] := (d^4 + k^2 X^6 + d X^4 (15 k^2 - 12 k X + X^2) + 
+    5 d^2 X^2 (3 k^2 - 8 k X + 3 X^2) + d^3 (k^2 - 12 k X + 15 X^2));
+
+iii) C31[X_, k_, d_] := (d^8 + k^4 X^12 + 6 d k^2 X^10 (11 k^2 - 8 k X + X^2) + 
+    6 d^7 (k^2 - 8 k X + 11 X^2) + 
+    d^2 X^8 (495 k^4 - 880 k^3 X + 396 k^2 X^2 - 48 k X^3 + X^4) + 
+    22 d^3 X^6 (42 k^4 - 144 k^3 X + 135 k^2 X^2 - 40 k X^3 + 
+       3 X^4) + 
+    99 d^4 X^4 (5 k^4 - 32 k^3 X + 56 k^2 X^2 - 32 k X^3 + 5 X^4) + 
+    22 d^5 X^2 (3 k^4 - 40 k^3 X + 135 k^2 X^2 - 144 k X^3 + 42 X^4) +
+     d^6 (k^4 - 48 k^3 X + 396 k^2 X^2 - 880 k X^3 + 495 X^4));    
+P<X,d>:=AffineSpace(Rationals(),2);
+C31 := Curve(P, d^8 + X^12 + 6*d*X^10*(11 - 8*X + X^2) + 6*d^7*(1 - 8*X + 11*X^2) + 
+ d^2*X^8*(495 - 880*X + 396*X^2 - 48*X^3 + X^4) + 
+ 22*d^3*X^6*(42 - 144*X + 135*X^2 - 40*X^3 + 3*X^4) + 
+ 99*d^4*X^4*(5 - 32*X + 56*X^2 - 32*X^3 + 5*X^4) + 
+ 22*d^5*X^2*(3 - 40*X + 135*X^2 - 144*X^3 + 42*X^4) + 
+ d^6*(1 - 48*X + 396*X^2 - 880*X^3 + 495*X^4));
+PC31:=ProjectiveClosure(C31);
+P<X,d,W>:=AmbientSpace(PC31);
+PC31;
+SingularPoints(C31);
+Genus(C31);
+
+Curve over Rational Field defined by
+X^12*d^2 + 6*X^12*d*W - 48*X^11*d^2*W + 66*X^10*d^3*W + X^12*W^2 - 48*X^11*d*W^2
+    + 396*X^10*d^2*W^2 - 880*X^9*d^3*W^2 + 495*X^8*d^4*W^2 + 66*X^10*d*W^3 -
+    880*X^9*d^2*W^3 + 2970*X^8*d^3*W^3 - 3168*X^7*d^4*W^3 + 924*X^6*d^5*W^3 +
+    495*X^8*d^2*W^4 - 3168*X^7*d^3*W^4 + 5544*X^6*d^4*W^4 - 3168*X^5*d^5*W^4 +
+    495*X^4*d^6*W^4 + 924*X^6*d^3*W^5 - 3168*X^5*d^4*W^5 + 2970*X^4*d^5*W^5 -
+    880*X^3*d^6*W^5 + 66*X^2*d^7*W^5 + 495*X^4*d^4*W^6 - 880*X^3*d^5*W^6 +
+    396*X^2*d^6*W^6 - 48*X*d^7*W^6 + d^8*W^6 + 66*X^2*d^5*W^7 - 48*X*d^6*W^7 +
+    6*d^7*W^7 + d^6*W^8
+{@ (0, 0), (1, 1) @}
+0
+
+P<X,d,W>:=ProjectiveSpace(Rationals(),2);
+PC31:=Curve(P, X^12*d^2 + 6*X^12*d*W - 48*X^11*d^2*W + 66*X^10*d^3*W + X^12*W^2 - 48*X^11*d*W^2
+    + 396*X^10*d^2*W^2 - 880*X^9*d^3*W^2 + 495*X^8*d^4*W^2 + 66*X^10*d*W^3 -
+    880*X^9*d^2*W^3 + 2970*X^8*d^3*W^3 - 3168*X^7*d^4*W^3 + 924*X^6*d^5*W^3 +
+    495*X^8*d^2*W^4 - 3168*X^7*d^3*W^4 + 5544*X^6*d^4*W^4 - 3168*X^5*d^5*W^4 +
+    495*X^4*d^6*W^4 + 924*X^6*d^3*W^5 - 3168*X^5*d^4*W^5 + 2970*X^4*d^5*W^5 -
+    880*X^3*d^6*W^5 + 66*X^2*d^7*W^5 + 495*X^4*d^4*W^6 - 880*X^3*d^5*W^6 +
+    396*X^2*d^6*W^6 - 48*X*d^7*W^6 + d^8*W^6 + 66*X^2*d^5*W^7 - 48*X*d^6*W^7 +
+    6*d^7*W^7 + d^6*W^8);
+SingularPoints(PC31);
+k:=FieldOfGeometricIrreducibility(PC31);
+k;
+
+{@ (0 : 0 : 1), (1 : 1 : 1), (0 : 1 : 0), (1 : 0 : 0) @}
+Number Field with defining polynomial $.1^2 + 4459/32*$.1 + 19849913/4096 over
+the Rational Field
+
+ R<X> := PolynomialRing(Rationals());
+ f := X^2 + 4459/32*X + 19849913/4096;
+k := NumberField(f);
+P<X,d,W>:=ProjectiveSpace(k,2);
+PC31:=Curve(P, X^12*d^2 + 6*X^12*d*W - 48*X^11*d^2*W + 66*X^10*d^3*W + X^12*W^2 - 48*X^11*d*W^2
+    + 396*X^10*d^2*W^2 - 880*X^9*d^3*W^2 + 495*X^8*d^4*W^2 + 66*X^10*d*W^3 -
+    880*X^9*d^2*W^3 + 2970*X^8*d^3*W^3 - 3168*X^7*d^4*W^3 + 924*X^6*d^5*W^3 +
+    495*X^8*d^2*W^4 - 3168*X^7*d^3*W^4 + 5544*X^6*d^4*W^4 - 3168*X^5*d^5*W^4 +
+    495*X^4*d^6*W^4 + 924*X^6*d^3*W^5 - 3168*X^5*d^4*W^5 + 2970*X^4*d^5*W^5 -
+    880*X^3*d^6*W^5 + 66*X^2*d^7*W^5 + 495*X^4*d^4*W^6 - 880*X^3*d^5*W^6 +
+    396*X^2*d^6*W^6 - 48*X*d^7*W^6 + d^8*W^6 + 66*X^2*d^5*W^7 - 48*X*d^6*W^7 +
+    6*d^7*W^7 + d^6*W^8);
+IrreducibleComponents(PC31);
+
+[
+    Scheme over k defined by
+    X^6*d + 1/64*(-64*k.1 - 4267)*X^6*W + 1/32*(192*k.1 + 12609)*X^5*d*W +
+        1/64*(-576*k.1 - 38019)*X^4*d^2*W + 1/32*(-192*k.1 - 12513)*X^4*d*W^2 +
+        1/16*(320*k.1 + 21015)*X^3*d^2*W^2 + 1/32*(-192*k.1 - 12513)*X^2*d^3*W^2
+        + 1/64*(-576*k.1 - 38019)*X^2*d^2*W^3 + 1/32*(192*k.1 + 12609)*X*d^3*W^3
+        + 1/64*(-64*k.1 - 4267)*d^4*W^3 + d^3*W^4,
+    Scheme over k defined by
+    X^6*d + 1/64*(64*k.1 + 4651)*X^6*W + 1/32*(-192*k.1 - 14145)*X^5*d*W +
+        1/64*(576*k.1 + 42243)*X^4*d^2*W + 1/32*(192*k.1 + 14241)*X^4*d*W^2 +
+        1/16*(-320*k.1 - 23575)*X^3*d^2*W^2 + 1/32*(192*k.1 + 14241)*X^2*d^3*W^2
+        + 1/64*(576*k.1 + 42243)*X^2*d^2*W^3 + 1/32*(-192*k.1 - 14145)*X*d^3*W^3
+        + 1/64*(64*k.1 + 4651)*d^4*W^3 + d^3*W^4
+]
+
+For the first scheme;
+
+function collect(f, i)
+    R := Parent(f);
+    K := BaseRing(R);
+    n := Rank(R);
+
+    // Check if i is within valid range (manual error handling)
+    if i lt 1 or i gt n then
+        error "Variable index out of bounds";
+    end if;
+
+    // Indices of the other variables
+    others := [1..n];
+    Remove(~others, i);
+
+    // Create the coefficient ring with the other variables
+    Snames := [Names(R)[j] : j in others];
+    S := PolynomialRing(K, #others);
+    AssignNames(~S, Snames);
+
+    // Create the univariate ring over S for the i-th variable
+    S1<y> := PolynomialRing(S);
+    AssignNames(~S1, [Names(R)[i]]);
+
+    // Define the homomorphism from R to S1
+    hom_images := [];
+    for j in [1..n] do
+        if j eq i then
+            Append(~hom_images, S1.1); // y (the i-th variable)
+        else
+            pos := Index(others, j);
+            Append(~hom_images, S.pos); // Other variables mapped to S
+        end if;
+    end for;
+
+    hom := hom< R -> S1 | hom_images >;
+
+    // Map the polynomial to the new ring
+    g := hom(f);
+    return g, S1;
+end function;
+
+K := Rationals();
+R<k, X, d, W> := PolynomialRing(K, 4);
+f :=    X^6*d + 1/64*(-64*k - 4267)*X^6*W + 1/32*(192*k + 12609)*X^5*d*W +
+        1/64*(-576*k - 38019)*X^4*d^2*W + 1/32*(-192*k - 12513)*X^4*d*W^2 +
+        1/16*(320*k + 21015)*X^3*d^2*W^2 + 1/32*(-192*k - 12513)*X^2*d^3*W^2
+        + 1/64*(-576*k - 38019)*X^2*d^2*W^3 + 1/32*(192*k + 12609)*X*d^3*W^3
+        + 1/64*(-64*k - 4267)*d^4*W^3 + d^3*W^4;
+
+// Collect terms with respect to x (first variable)
+g, S1 := collect(f, 1);
+
+// Output will be:
+// (y + 3)*y^2 + (z)*y + 2*z
+// Where y in S1 represents the original x variable
+g, S1;
+f eq    X^6*d + 1/64*(-64*k - 4267)*X^6*W + 1/32*(192*k + 12609)*X^5*d*W +
+        1/64*(-576*k - 38019)*X^4*d^2*W + 1/32*(-192*k - 12513)*X^4*d*W^2 +
+        1/16*(320*k + 21015)*X^3*d^2*W^2 + 1/32*(-192*k - 12513)*X^2*d^3*W^2
+        + 1/64*(-576*k - 38019)*X^2*d^2*W^3 + 1/32*(192*k + 12609)*X*d^3*W^3
+        + 1/64*(-64*k - 4267)*d^4*W^3 + d^3*W^4;
+
+(-X^6*W + 6*X^5*d*W - 9*X^4*d^2*W - 6*X^4*d*W^2 + 20*X^3*d^2*W^2 - 6*X^2*d^3*W^2
+    - 9*X^2*d^2*W^3 + 6*X*d^3*W^3 - d^4*W^3)*k + X^6*d - 4267/64*X^6*W +
+    12609/32*X^5*d*W - 38019/64*X^4*d^2*W - 12513/32*X^4*d*W^2 +
+    21015/16*X^3*d^2*W^2 - 12513/32*X^2*d^3*W^2 - 38019/64*X^2*d^2*W^3 +
+    12609/32*X*d^3*W^3 - 4267/64*d^4*W^3 + d^3*W^4
+Univariate Polynomial Ring in k over Polynomial ring of rank 3 over Rational
+    Field
+true
+
+For the second scheme;
+
+function collect(f, i)
+    R := Parent(f);
+    K := BaseRing(R);
+    n := Rank(R);
+
+    // Check if i is within valid range (manual error handling)
+    if i lt 1 or i gt n then
+        error "Variable index out of bounds";
+    end if;
+
+    // Indices of the other variables
+    others := [1..n];
+    Remove(~others, i);
+
+    // Create the coefficient ring with the other variables
+    Snames := [Names(R)[j] : j in others];
+    S := PolynomialRing(K, #others);
+    AssignNames(~S, Snames);
+
+    // Create the univariate ring over S for the i-th variable
+    S1<y> := PolynomialRing(S);
+    AssignNames(~S1, [Names(R)[i]]);
+
+    // Define the homomorphism from R to S1
+    hom_images := [];
+    for j in [1..n] do
+        if j eq i then
+            Append(~hom_images, S1.1); // y (the i-th variable)
+        else
+            pos := Index(others, j);
+            Append(~hom_images, S.pos); // Other variables mapped to S
+        end if;
+    end for;
+
+    hom := hom< R -> S1 | hom_images >;
+
+    // Map the polynomial to the new ring
+    g := hom(f);
+    return g, S1;
+end function;
+
+K := Rationals();
+R<k, X, d, W> := PolynomialRing(K, 4);
+f :=X^6*d + 1/64*(64*k + 4651)*X^6*W + 1/32*(-192*k - 14145)*X^5*d*W +
+        1/64*(576*k + 42243)*X^4*d^2*W + 1/32*(192*k + 14241)*X^4*d*W^2 +
+        1/16*(-320*k - 23575)*X^3*d^2*W^2 + 1/32*(192*k + 14241)*X^2*d^3*W^2
+        + 1/64*(576*k + 42243)*X^2*d^2*W^3 + 1/32*(-192*k - 14145)*X*d^3*W^3
+        + 1/64*(64*k + 4651)*d^4*W^3 + d^3*W^4;
+// Collect terms with respect to x (first variable)
+g, S1 := collect(f, 1);
+
+// Output will be:
+// (y + 3)*y^2 + (z)*y + 2*z
+// Where y in S1 represents the original x variable
+g, S1;
+f eq X^6*d + 1/64*(64*k + 4651)*X^6*W + 1/32*(-192*k - 14145)*X^5*d*W +
+        1/64*(576*k + 42243)*X^4*d^2*W + 1/32*(192*k + 14241)*X^4*d*W^2 +
+        1/16*(-320*k - 23575)*X^3*d^2*W^2 + 1/32*(192*k + 14241)*X^2*d^3*W^2
+        + 1/64*(576*k + 42243)*X^2*d^2*W^3 + 1/32*(-192*k - 14145)*X*d^3*W^3
+        + 1/64*(64*k + 4651)*d^4*W^3 + d^3*W^4;
+
+(X^6*W - 6*X^5*d*W + 9*X^4*d^2*W + 6*X^4*d*W^2 - 20*X^3*d^2*W^2 + 6*X^2*d^3*W^2
+    + 9*X^2*d^2*W^3 - 6*X*d^3*W^3 + d^4*W^3)*k + X^6*d + 4651/64*X^6*W -
+    14145/32*X^5*d*W + 42243/64*X^4*d^2*W + 14241/32*X^4*d*W^2 -
+    23575/16*X^3*d^2*W^2 + 14241/32*X^2*d^3*W^2 + 42243/64*X^2*d^2*W^3 -
+    14145/32*X*d^3*W^3 + 4651/64*d^4*W^3 + d^3*W^4
+Univariate Polynomial Ring in k over Polynomial ring of rank 3 over Rational
+    Field
+true
+
+
+P<X,d,W>:=ProjectiveSpace(Rationals(),2);
+C1 := Scheme(P, [(-X^6*W + 6*X^5*d*W - 9*X^4*d^2*W - 6*X^4*d*W^2 + 20*X^3*d^2*W^2 - 6*X^2*d^3*W^2
+    - 9*X^2*d^2*W^3 + 6*X*d^3*W^3 - d^4*W^3), X^6*d - 4267/64*X^6*W +
+    12609/32*X^5*d*W - 38019/64*X^4*d^2*W - 12513/32*X^4*d*W^2 +
+    21015/16*X^3*d^2*W^2 - 12513/32*X^2*d^3*W^2 - 38019/64*X^2*d^2*W^3 +
+    12609/32*X*d^3*W^3 - 4267/64*d^4*W^3 + d^3*W^4]);
+Dimension(C1);
+Points(C1);
+C2 := Scheme(P, [(X^6*W - 6*X^5*d*W + 9*X^4*d^2*W + 6*X^4*d*W^2 - 20*X^3*d^2*W^2 + 6*X^2*d^3*W^2
+    + 9*X^2*d^2*W^3 - 6*X*d^3*W^3 + d^4*W^3), X^6*d + 4651/64*X^6*W -
+    14145/32*X^5*d*W + 42243/64*X^4*d^2*W + 14241/32*X^4*d*W^2 -
+    23575/16*X^3*d^2*W^2 + 14241/32*X^2*d^3*W^2 + 42243/64*X^2*d^2*W^3 -
+    14145/32*X*d^3*W^3 + 4651/64*d^4*W^3 + d^3*W^4]);
+Dimension(C2);
+Points(C2);
+
+0
+{@ (0 : 0 : 1), (1 : 1 : 1), (0 : 1 : 0), (1 : 0 : 0) @}
+0
+{@ (0 : 0 : 1), (1 : 1 : 1), (0 : 1 : 0), (1 : 0 : 0) @}
