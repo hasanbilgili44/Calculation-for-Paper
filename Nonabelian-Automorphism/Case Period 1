@@ -45,3 +45,20 @@ We have just one singular point. We will blow C1 up at that point.
 {@ @}
 0
 {@ (3/8, 63/8, 189/64, 8/3, 1) @}
+
+C_1
+P1<u,v> := ProjectiveSpace(Rationals(), 1);
+P<z,d,w>:=ProjectiveSpace(Rationals(),2);
+C:=Curve(P,[z^3-3*z^2*w+3*d*z*w-d*w^2]);
+Q:=C![1,1,1];
+phi:=Parametrization(C,Place(Q),Curve(P1));
+phi;
+
+C_1: Better
+
+P<d,k,z,w>;:=ProjectiveSpace(Rationals(),3);
+p:=d*k*w - 3*d*z*w + 3*k*z^2 - z^3;
+_,_,typ := ClassifyRationalSurface(Surface(P,p));
+typ;
+P2&lt;U,V,T&gt; := ProjectiveSpace(Rationals(), 2);
+ParametrizeProjectiveHypersurface(Surface(P, p), P2);

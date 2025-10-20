@@ -1,4 +1,4 @@
-PERİOD 5
+PERIOD 5
 
 For the case k is not equal to 0. 
 

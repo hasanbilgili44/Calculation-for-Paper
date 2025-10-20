@@ -202,6 +202,16 @@ Points(C3);
 {@ (0 : 1/3 : 1), (1 : 1 : 1), (0 : 1 : 0), (1 : 0 : 0) @}
 {@ (0 : 1/3 : 1), (1 : 1 : 1), (0 : 1 : 0), (1 : 0 : 0) @}
 
-iv)
+iv)Checking for two 3-cycles
+P1<s,t>; := ProjectiveSpace(Rationals(), 1);
+P<z,x,u>;:=ProjectiveSpace(Rationals(),2);
+C:=Curve(P,[(u^6 + 3*u^5* x - 9* u^4* x^2 - 3* u^3* x^3 - 3* u^5* z + 27* u^4* x* z +
+27* u^3* x^2* z - 27* u^2* x^3* z - 9* u^4* z^2 - 27* u^3* x* z^2 +
+81* u^2* x^2* z^2 + 27* u *x^3* z^2 + 3* u^3* z^3 - 27* u^2* x* z^3 -
+27* u *x^2* z^3 + 27* x^3* z^3)]);
+SingularPoints(C);
+k:=FieldOfGeometricIrreducibility(C);
+k;
+IrreducibleComponents(BaseChange(C,k));
 
 v)

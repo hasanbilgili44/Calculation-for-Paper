@@ -40,6 +40,21 @@ Rational Field
 0
 {@ (0 : 0 : 1), (1 : 1 : 1), (0 : 1 : 0) @}
 
+P1<s,t>; := ProjectiveSpace(Rationals(), 1);
+P<z,d,W>;:=ProjectiveSpace(Rationals(),2);
+C:=Curve(P, z^6*d + 1/3*z^6*W - 8*z^5*d*W + 9*z^4*d^2*W + 11*z^4*d*W^2 -
+80/3*z^3*d^2*W^2 +
+11*z^2*d^3*W^2 + 9*z^2*d^2*W^3 - 8*z*d^3*W^3 + 1/3*d^4*W^3 + d^3*W^4);
+k:=FieldOfGeometricIrreducibility(C);
+k;
+SingularPoints(C);
+Genus(C);
+k:=FieldOfGeometricIrreducibility(C);
+k;
+Q:=C![1,0,0];
+phi:=Parametrization(C,Place(Q),Curve(P1));
+phi;
+
 iii)
 F[x_, y_] := k*x^2 - 2*d*x*y + d*k*y^2
 G[x_, y_] := x^2 - 2*k*x*y + d*y^2;

@@ -1,5 +1,19 @@
 ii) C21[X_, k_, d_] := (d^4 + k^2 X^6 + d X^4 (15 k^2 - 12 k X + X^2) + 
     5 d^2 X^2 (3 k^2 - 8 k X + 3 X^2) + d^3 (k^2 - 12 k X + 15 X^2));
+   
+P1<s,t>; := ProjectiveSpace(Rationals(), 1);
+P<d,z,w>;:=ProjectiveSpace(Rationals(),2);
+C:=Curve(P,[d^3*w^4 + d^4*w^3 - 12* d^3* z*w^3 + 15* d^2* z^2*w^3 + 15* d^3*
+z^2*w^2 - 40* d^2* z^3*w^2 +
+15* d* z^4*w^2 + 15* d^2* z^4*w - 12* d* z^5*w + z^6*w + d* z^6
+]);
+SingularPoints(C);
+Genus(C);
+k:=FieldOfGeometricIrreducibility(C);
+k;
+Q:=C![0,1,0];
+phi:=Parametrization(C,Place(Q),Curve(P1));
+phi;
 
 iii) C31[X_, k_, d_] := (d^8 + k^4 X^12 + 6 d k^2 X^10 (11 k^2 - 8 k X + X^2) + 
     6 d^7 (k^2 - 8 k X + 11 X^2) + 
