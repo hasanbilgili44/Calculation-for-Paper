@@ -1,0 +1,141 @@
+(* Computations for the corrections and new results in version 4 of
+   "Rational preperiodic points of quadratic rational maps over Q
+    with nonabelian automorphism groups" (Bilgili, Sadek).
+   Numbering refers to version 4.
+   Evaluate the whole notebook. The expected output is written in a comment
+   after each block. *)
+
+Theta[z_, d_, k_] := (k*z^2 - 2*d*z + d*k)/(z^2 - 2*k*z + d);
+
+(* 3rd dynatomic polynomial divided by (d - k^2)^2, see the proof of Theorem 3.5 *)
+Phi3[z_, k_, d_] := 3 d^4 + 27 d^3 z^2 + 33 d^2 z^4 + d z^6 +
+   k (-24 d^3 z - 80 d^2 z^3 - 24 d z^5) +
+   k^2 (d^3 + 33 d^2 z^2 + 27 d z^4 + 3 z^6);
+
+
+(* ---------- 1. Lemma 3.1: the identity used in the proof ---------- *)
+Factor[Together[Theta[z1, d, k] - Theta[z2, d, k]]]
+Simplify[Theta[0, d, k] - k]
+Factor[Together[Theta[z, d, k] - k]]
+(* Expected:
+   2 (d - k^2) (z1 - z2) (z1 z2 - d) / ((d - 2 k z1 + z1^2) (d - 2 k z2 + z2^2))
+   (possibly written with the signs arranged differently)
+   0
+   2 z (k^2 - d)/(d - 2 k z + z^2)   (up to arrangement of signs) *)
+
+
+(* ---------- 2. Discriminant of the fixed point cubic (1), Theorem 6.7 ---------- *)
+Factor[Discriminant[d k - 3 d z + 3 k z^2 - z^3, z]]
+(* Expected: -108 d (d - k^2)^2 *)
+
+
+(* ---------- 3. Theorem 3.5: the 3-cycle, both signs, all u != 0 ---------- *)
+(* s = 1 is the upper sign, s = -1 is the lower sign *)
+kk[u_, x_, s_] := (s u^4 + 3 u^3 x - s 9 u^2 x^2 - 3 u x^3)/(u^3 - s 9 u^2 x - 9 u x^2 + s 9 x^3);
+c1[u_, x_, s_] := x;
+c2[u_, x_, s_] := u (s u + x)/(u - s 3 x);
+c3[u_, x_, s_] := -s u (u - s x)/(u + s 3 x);
+Table[Simplify[Together[{
+    Theta[c1[u, x, s], -u^2/3, kk[u, x, s]] - c2[u, x, s],
+    Theta[c2[u, x, s], -u^2/3, kk[u, x, s]] - c3[u, x, s],
+    Theta[c3[u, x, s], -u^2/3, kk[u, x, s]] - c1[u, x, s]}]], {s, {1, -1}}]
+(* Expected: {{0, 0, 0}, {0, 0, 0}} *)
+
+(* The denominators of k never vanish for u != 0 (t = u/x): *)
+Factor[t^3 - 9 t^2 - 9 t + 9]
+Factor[t^3 + 9 t^2 - 9 t - 9]
+(* Expected: both returned unchanged (irreducible over Q, so no rational roots) *)
+
+
+(* ---------- 4. The 3-cycles through infinity (u = +-3x) ---------- *)
+Simplify[Theta[k, d, k]]
+Factor[Denominator[Together[Theta[-k, d, k]]]]
+(* Expected: -k   and   3 k^2 + d.
+   So infinity -> k -> -k -> infinity is a 3-cycle exactly when d = -3 k^2. *)
+
+Simplify[{kk[-3 x, x, 1], kk[3 x, x, -1]}]
+(* Expected: {x, x}. With d = -u^2/3 = -3 x^2 this is the case d = -3 k^2. *)
+
+(* The map theta_{-3,1}: only one rational 3-cycle (Theorem 5.3 iv)) *)
+Factor[Phi3[z, 1, -3]]
+(* Expected: 72 (-1 + z) (1 + z) (-3 - 9 z + 3 z^2 + z^3)
+   Degree 5 in z, so infinity is the 6th root. The cubic is irreducible. *)
+{Theta[-1, -3, 1], Theta[1, -3, 1]}
+(* Expected: {ComplexInfinity, -1}   i.e.  -1 -> infinity, 1 -> -1, and infinity -> k = 1 *)
+
+
+(* ---------- 5. Theorem 6.2 ii): the corrected orbit ---------- *)
+D62 = -k^2 (8 s - 41 t)^2 (64 s^2 - 272 s t + 97 t^2)^2/((8 s - 25 t)^2 (64 s^2 - 784 s t + 2209 t^2)^2);
+w0 = k (8 s - 41 t) (8 s - 33 t) (64 s^2 - 272 s t + 97 t^2)/(8 (8 s - 25 t) t (64 s^2 - 784 s t + 2209 t^2));
+w1 = k (8 s - 41 t)^2 (64 s^2 - 272 s t + 97 t^2)/((8 s - 25 t)^2 (64 s^2 - 784 s t + 2209 t^2));
+w2 = -k (64 s^2 - 272 s t + 97 t^2)/(64 s^2 - 784 s t + 2209 t^2);
+Simplify[Together[{Theta[w0, D62, k] - w1, Theta[w1, D62, k] - w2, Theta[w2, D62, k] - w2}]]
+(* Expected: {0, 0, 0}. The fixed point is w2 WITH the minus sign. *)
+Simplify[{w0 /. s -> 33 t/8, D62 /. s -> 33 t/8}]
+(* Expected: {0, -k^2}   (the point 0 of type 1_2 when d = -k^2) *)
+
+
+(* ---------- 6. Example 6.9 iv): corrected point ---------- *)
+d4 = -13417569/640747969;
+{Theta[91575/202504, d4, 1], Theta[-29304/632825, d4, 1], d4/(91575/202504)}
+(* Expected: {-120879/430321, -120879/430321, -29304/632825} *)
+Theta[-29304/430321, d4, 1]
+(* Expected: -1441877679/9024770929   (the value printed in v3 is not in the portrait) *)
+
+
+(* ---------- 7. Example 6.9 vi): theta_{1,2}, a single 2-cycle ---------- *)
+{Theta[1, 1, 2], Theta[-1, 1, 2]}
+(* Expected: {-1, 1} *)
+Factor[2 - 3 z + 6 z^2 - z^3]
+(* Expected: unchanged, so no rational fixed point *)
+{Solve[Theta[z, 1, 2] == 1, z], Solve[Theta[z, 1, 2] == -1, z]}
+(* Expected: only z = -1 and only z = 1 (each possibly listed twice),
+   so the 2-cycle has no tails. -3d = -3 is not a square, so no 3-cycle. *)
+
+
+(* ---------- 8. Example 6.9 vii): theta_{2,1}, no rational preperiodic points ---------- *)
+Factor[2 - 6 z + 3 z^2 - z^3]
+(* Expected: unchanged, so no rational fixed point.
+   d = 2 and -3d = -6 are not squares, so no 2-cycle and no 3-cycle. *)
+
+
+(* ================= Output (Mathematica 13.2) =================
+   This block is a comment: it records the output and is not evaluated.
+
+--- 1. Lemma 3.1 ---
+-((2 (d - k^2) (z1 - z2) (d - z1 z2))/((d - 2 k z1 + z1^2) (d - 2 k z2 + z2^2)))
+0
+-((2 (d - k^2) z)/(d - 2 k z + z^2))
+
+--- 2. Discriminant ---
+-108 d (d - k^2)^2
+
+--- 3. Theorem 3.5 ---
+{{0, 0, 0}, {0, 0, 0}}
+9 - 9 t - 9 t^2 + t^3
+-9 - 9 t + 9 t^2 + t^3
+
+--- 4. 3-cycles through infinity ---
+-k
+d + 3 k^2
+{x, x}
+72 (-1 + z) (1 + z) (-3 - 9 z + 3 z^2 + z^3)
+Power::infy: Infinite expression 1/0 encountered.
+{ComplexInfinity, -1}
+
+--- 5. Theorem 6.2 ii) ---
+{0, 0, 0}
+{0, -k^2}
+
+--- 6. Example 6.9 iv) ---
+{-120879/430321, -120879/430321, -29304/632825}
+-1441877679/9024770929
+
+--- 7. Example 6.9 vi) ---
+{-1, 1}
+2 - 3 z + 6 z^2 - z^3
+{{{z -> -1}, {z -> -1}}, {{z -> 1}, {z -> 1}}}
+
+--- 8. Example 6.9 vii) ---
+2 - 6 z + 3 z^2 - z^3
+*)
